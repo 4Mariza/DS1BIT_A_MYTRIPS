@@ -19,20 +19,23 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.ArrowForward
-import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxColors
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -40,20 +43,29 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.ColorMatrix
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.mytrips.ui.theme.MyTripsTheme
+
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,8 +77,9 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     Greeting()
+                    SignUpLayout()
+                    HomeLayout()
                 }
-                SignUpLayout()
 
             }
         }
@@ -131,12 +144,13 @@ fun Greeting() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(150.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceAround
             ) {
                 OutlinedTextField(
                     value = "",
-                    onValueChange = {},
-                    leadingIcon = { Icon(imageVector = Icons.Filled.Email, contentDescription ="", tint = Color(0xFFBB00FF))},
+                    onValueChange = { },
+                    leadingIcon = {Icon(imageVector = Icons.Filled.Email, contentDescription ="", tint = Color(0xFFBB00FF))},
                     label = {
                         Text(text = "Email")
                     },
@@ -147,7 +161,7 @@ fun Greeting() {
                     shape = RoundedCornerShape(18.dp),
                     modifier = Modifier
                         .width(340.dp)
-                        .height(70.dp)
+                        .height(65.dp)
                 )
                 OutlinedTextField(
                     value = "",
@@ -163,7 +177,7 @@ fun Greeting() {
                     shape = RoundedCornerShape(18.dp),
                     modifier = Modifier
                         .width(340.dp)
-                        .height(70.dp)
+                        .height(65.dp)
                 )
             }
             Spacer(modifier = Modifier.height(18.dp))
@@ -338,7 +352,7 @@ fun SignUpLayout() {
                     shape = RoundedCornerShape(18.dp),
                     modifier = Modifier
                         .width(340.dp)
-                        .height(70.dp)
+                        .height(65.dp)
                 )
                 OutlinedTextField(
                     value = "",
@@ -354,7 +368,7 @@ fun SignUpLayout() {
                     shape = RoundedCornerShape(18.dp),
                     modifier = Modifier
                         .width(340.dp)
-                        .height(70.dp)
+                        .height(65.dp)
                 )
                 OutlinedTextField(
                     value = "",
@@ -370,7 +384,7 @@ fun SignUpLayout() {
                     shape = RoundedCornerShape(18.dp),
                     modifier = Modifier
                         .width(340.dp)
-                        .height(70.dp)
+                        .height(65.dp)
                 )
                 OutlinedTextField(
                     value = "",
@@ -386,7 +400,7 @@ fun SignUpLayout() {
                     shape = RoundedCornerShape(18.dp),
                     modifier = Modifier
                         .width(340.dp)
-                        .height(70.dp)
+                        .height(65.dp)
                 )
             }
             Column (
@@ -466,6 +480,190 @@ fun SignUpLayout() {
     }
 }
 
+@Composable
+fun HomeLayout(){
+    Column (
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFF6F6F6))
+    ){
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+                .paint(
+                    painterResource(id = R.drawable.homebg),
+                    contentScale = ContentScale.FillWidth
+                )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 15.dp)
+            ) {
+                Row (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(100.dp)
+                        .padding(end = 15.dp),
+                    horizontalArrangement = Arrangement.End
+                ){
+                    Column (
+                        horizontalAlignment = Alignment.End
+                    ){
+                        Card(
+                            modifier = Modifier
+                                .size(height = 80.dp, width = 80.dp),
+                            colors = CardDefaults.cardColors(containerColor = Color(0xFF2A6391)
+                            ),
+                            elevation = CardDefaults.cardElevation(5.dp),
+                            shape = CircleShape,
+                            border = BorderStroke(width = 2.dp, color = Color.White)
+                        ){
+                            Image(painter = painterResource(id = R.drawable.susannahoffs) , contentDescription ="Foto de Perfil" )
+                        }
+                        Row {
+                            Text(
+                                text = "Susanna Hoffs",
+                                color = Color.White
+                            )
+                        }
+                    }
+                }
+                Column (
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(start = 15.dp),
+                    verticalArrangement = Arrangement.Center
+                ){
+                    Column {
+                        Row {
+                            Image(
+                                imageVector = Icons.Filled.LocationOn,
+                                contentDescription ="Icon de localização",
+                                colorFilter = ColorFilter.tint(
+                                    Color.White)
+                            )
+                            Text(
+                                text = "You're in Paris",
+                                color = Color.White,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.W400
+                            )
+                        }
+                        Row {
+                            Text(
+                                text = "My Trips",
+                                color = Color.White,
+                                fontWeight = FontWeight.W800,
+                                fontSize = 28.sp
+                            )
+                        }
+                    }
+                }
+            }
+        }
+        Column (
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(150.dp)
+                .padding(top = 15.dp, start = 15.dp),
+            verticalArrangement = Arrangement.SpaceEvenly
+        ){
+            Row {
+                Text(
+                    text = "Categories",
+                    color = Color(0xFF565454)
+                )
+            }
+            LazyRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp),
+                horizontalArrangement = Arrangement.SpaceAround
+            ){
+                items(5) { index ->
+                    Card (
+                        modifier = Modifier
+                            .width(125.dp)
+                            .height(80.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color(0xFFCF06F0)
+                        ),
+                        shape = RoundedCornerShape(10.dp)
+                    ){
+                        Column (
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ){
+                            Image(painter = painterResource(id = R.drawable.moutain_icon), contentDescription = "")
+                            Text(text = "Mountain", color = Color.White)
+                        }
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+                }
+            }
+        }
+        Row (
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(60.dp),
+            horizontalArrangement = Arrangement.Center
+        ){
+            OutlinedTextField(
+                value = "",
+                onValueChange = {},
+                label = {
+                    Text(
+                        text = "Search your destiny",
+                        color = Color(0xFFA09C9C)
+                    )
+                },
+                trailingIcon = { Icon(imageVector = Icons.Outlined.Search, contentDescription = "", tint = Color.Gray)},
+                modifier = Modifier
+                    .width(360.dp)
+                    .align(Alignment.CenterVertically),
+                shape = RoundedCornerShape(20.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    unfocusedContainerColor = Color.White,
+                    unfocusedBorderColor = Color.Transparent
+                )
+            )
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = 16.dp, top = 16.dp)
+        ) {
+            Row {
+                Text(
+                    text = "Past Trips",
+                    color = Color(0xFF565454)
+                )
+            }
+            LazyColumn(){
+                items(2) {index ->
+                    Card(
+                        modifier = Modifier
+                            .width(360.dp)
+                            .height(250.dp)
+                    ) {
+                        Row (
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(125.dp)
+                        ){
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun GreetingPreview() {
@@ -476,8 +674,16 @@ fun GreetingPreview() {
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun SignUp() {
+fun SignUpPreview() {
     MyTripsTheme {
         SignUpLayout()
+    }
+}
+
+@Preview(showSystemUi = true, showBackground = true)
+@Composable
+fun HomePreview() {
+    MyTripsTheme {
+        HomeLayout()
     }
 }
