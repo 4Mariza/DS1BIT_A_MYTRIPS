@@ -26,6 +26,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Landscape
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
@@ -480,6 +481,73 @@ fun SignUpLayout() {
     }
 }
 
+data class TripModel (val name: String,val img: Int, val year: Int, val description: String, val date: String)
+
+
+@Composable
+fun ListColumn(model: TripModel){
+    Card(
+        modifier = Modifier
+            .width(360.dp)
+            .height(280.dp)
+            .padding(vertical = 8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        ),
+        elevation = CardDefaults.cardElevation(14.dp)
+    ) {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 8.dp),
+            verticalArrangement = Arrangement.SpaceEvenly
+        )
+        {
+            Row (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(130.dp)
+            ){
+                Card {
+                    Image(
+                        painter = painterResource(id = model.img),
+                        contentDescription ="",
+                        contentScale = ContentScale.Crop
+                    )
+                }
+            }
+            Row (modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = model.name+",",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color(0xFFCF06F0)
+                )
+                Text(text = "ano")
+            }
+            Text(
+                text = model.description,
+                lineHeight = 16.sp,
+                fontSize = 13.sp
+            )
+            Row (
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
+            ){
+                Text(
+                    text = model.date,
+                    color = Color(0xFFCF06F0),
+                    fontSize = 13.sp
+                )
+            }
+        }
+
+    }
+    val tripsList = mutableListOf<TripModel>()
+    tripsList.add(TripModel("Londres", R.drawable.london, 2019, "London is the capital and largest city of  the United Kingdom, with a population of just under 9 million.", "18 Feb - 21 Feb"))
+    tripsList.add(TripModel("Porto", R.drawable.porto, 2022, "Porto is the second city in Portugal, the capital of the Oporto District, and one of the Iberian Peninsula's major urban areas.", "18 Mar - 21 Apr"))
+}
+
 @Composable
 fun HomeLayout(){
     Column (
@@ -499,13 +567,12 @@ fun HomeLayout(){
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 15.dp)
+                    .padding(15.dp)
             ) {
                 Row (
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(100.dp)
-                        .padding(end = 15.dp),
+                        .height(100.dp),
                     horizontalArrangement = Arrangement.End
                 ){
                     Column (
@@ -532,8 +599,7 @@ fun HomeLayout(){
                 }
                 Column (
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(start = 15.dp),
+                        .fillMaxSize(),
                     verticalArrangement = Arrangement.Center
                 ){
                     Column {
@@ -567,9 +633,10 @@ fun HomeLayout(){
             modifier = Modifier
                 .fillMaxWidth()
                 .height(150.dp)
-                .padding(top = 15.dp, start = 15.dp),
+                .padding(horizontal = 15.dp),
             verticalArrangement = Arrangement.SpaceEvenly
         ){
+            Spacer(modifier = Modifier.height(14.dp))
             Row {
                 Text(
                     text = "Categories",
@@ -598,7 +665,11 @@ fun HomeLayout(){
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center
                         ){
-                            Image(painter = painterResource(id = R.drawable.moutain_icon), contentDescription = "")
+                            Image(
+                                painter = painterResource(id = R.drawable.moutain_icon),
+                                contentDescription = "",
+                                modifier = Modifier.height(40.dp)
+                            )
                             Text(text = "Mountain", color = Color.White)
                         }
                     }
@@ -644,25 +715,69 @@ fun HomeLayout(){
                 )
             }
             LazyColumn(){
-                items(2) {index ->
-                    Card(
-                        modifier = Modifier
-                            .width(360.dp)
-                            .height(250.dp)
-                    ) {
-                        Row (
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(125.dp)
-                        ){
 
-                        }
-                    }
-                }
             }
         }
     }
 }
+
+//Card(
+//modifier = Modifier
+//.width(360.dp)
+//.height(280.dp)
+//.padding(vertical = 8.dp),
+//colors = CardDefaults.cardColors(
+//containerColor = Color.White
+//),
+//elevation = CardDefaults.cardElevation(14.dp)
+//) {
+//    Column(modifier = Modifier
+//        .fillMaxSize()
+//        .padding(horizontal = 8.dp),
+//        verticalArrangement = Arrangement.SpaceEvenly
+//    )
+//    {
+//        Row (
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .height(130.dp)
+//        ){
+//            Card {
+//                Image(
+//                    painter = painterResource(id = R.drawable.london),
+//                    contentDescription ="Cidade de Londres",
+//                    contentScale = ContentScale.Crop
+//                )
+//            }
+//        }
+//        Text(
+//            text = "London, 2019",
+//            fontSize = 20.sp,
+//            fontWeight = FontWeight.SemiBold,
+//            color = Color(0xFFCF06F0)
+//        )
+//        Text(
+//            text = "London is the capital and largest city of  the United Kingdom, with a population of just under 9 million.",
+//            lineHeight = 16.sp,
+//            fontSize = 13.sp
+//        )
+//        Row (
+//            modifier = Modifier
+//                .fillMaxWidth(),
+//            horizontalArrangement = Arrangement.End
+//        ){
+//            Text(
+//                text = "18 Feb - 21 Feb",
+//                color = Color(0xFFCF06F0),
+//                fontSize = 13.sp
+//            )
+//        }
+//    }
+//
+//}
+
+
+
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
