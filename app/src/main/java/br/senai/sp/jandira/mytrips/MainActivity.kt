@@ -26,12 +26,15 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Landscape
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.outlined.ArrowForward
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Button
@@ -41,6 +44,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -63,6 +67,9 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
@@ -93,6 +100,18 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting() {
+    var nomeState = remember {
+        mutableStateOf("")
+    }
+
+    var passwordState = remember {
+        mutableStateOf("")
+    }
+
+    var showPassword by remember {
+        mutableStateOf(false)
+    }
+
     Row {
         Card (
             colors = CardDefaults.cardColors(
@@ -153,8 +172,10 @@ fun Greeting() {
                 verticalArrangement = Arrangement.SpaceAround
             ) {
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = { },
+                    value = nomeState.value,
+                    onValueChange = {
+                                    nomeState.value = it
+                    },
                     leadingIcon = {Icon(imageVector = Icons.Filled.Email, contentDescription ="", tint = Color(0xFFBB00FF))},
                     label = {
                         Text(text = "Email")
@@ -169,8 +190,34 @@ fun Greeting() {
                         .height(65.dp)
                 )
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = passwordState.value,
+                    onValueChange = {
+                                    passwordState.value = it
+                    },
+                    visualTransformation = if (showPassword){
+                        VisualTransformation.None
+                    }else{
+                        PasswordVisualTransformation()
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    trailingIcon = {
+                        if (showPassword) {
+                            IconButton(onClick = { showPassword = false }) {
+                                Icon(
+                                    imageVector = Icons.Filled.Visibility,
+                                    contentDescription = "hide_password"
+                                )
+                            }
+                        } else {
+                            IconButton(
+                                onClick = { showPassword = true }) {
+                                Icon(
+                                    imageVector = Icons.Filled.VisibilityOff,
+                                    contentDescription = "hide_password"
+                                )
+                            }
+                        }
+                    },
                     leadingIcon = { Icon(imageVector = Icons.Filled.Lock, contentDescription ="", tint = Color(0xFFBB00FF) )},
                     label = {
                         Text(text = "Password")
@@ -251,6 +298,31 @@ fun Greeting() {
 
 @Composable
 fun SignUpLayout() {
+    var nomeState = remember {
+        mutableStateOf("")
+    }
+
+    var emailState = remember {
+        mutableStateOf("")
+    }
+
+    var phoneState = remember {
+        mutableStateOf("")
+    }
+
+    var passwordState = remember {
+        mutableStateOf("")
+    }
+
+    var showPassword by remember {
+        mutableStateOf(false)
+    }
+
+    var checkState = remember {
+        mutableStateOf(false)
+    }
+
+
     Row(
         modifier = Modifier
             .height(50.dp)
@@ -344,8 +416,10 @@ fun SignUpLayout() {
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = nomeState.value,
+                    onValueChange = {
+                                    nomeState.value = it
+                    },
                     leadingIcon = { Icon(imageVector = Icons.Filled.Person, contentDescription ="", tint = Color(0xFFBB00FF) )},
                     label = {
                         Text(text = "Username")
@@ -360,12 +434,15 @@ fun SignUpLayout() {
                         .height(65.dp)
                 )
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = phoneState.value,
+                    onValueChange = {
+                                    phoneState.value = it
+                    },
                     leadingIcon = {Image(painter = painterResource(id = R.drawable.phone), contentDescription = "")},
                     label = {
                         Text(text = "Phone")
                     },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                     colors = OutlinedTextFieldDefaults
                         .colors(
                             unfocusedBorderColor = Color(0xFFBB00FF)
@@ -376,12 +453,15 @@ fun SignUpLayout() {
                         .height(65.dp)
                 )
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = emailState.value,
+                    onValueChange = {
+                                    emailState.value = it
+                    },
                     leadingIcon = { Icon(imageVector = Icons.Filled.Email, contentDescription ="", tint = Color(0xFFBB00FF))},
                     label = {
                         Text(text = "Email")
                     },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                     colors = OutlinedTextFieldDefaults
                         .colors(
                             unfocusedBorderColor = Color(0xFFBB00FF)
@@ -392,8 +472,34 @@ fun SignUpLayout() {
                         .height(65.dp)
                 )
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = passwordState.value,
+                    onValueChange = {
+                                    passwordState.value = it
+                    },
+                    visualTransformation = if (showPassword){
+                        VisualTransformation.None
+                    }else{
+                        PasswordVisualTransformation()
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    trailingIcon = {
+                        if (showPassword) {
+                            IconButton(onClick = { showPassword = false }) {
+                                Icon(
+                                    imageVector = Icons.Filled.Visibility,
+                                    contentDescription = "hide_password"
+                                )
+                            }
+                        } else {
+                            IconButton(
+                                onClick = { showPassword = true }) {
+                                Icon(
+                                    imageVector = Icons.Filled.VisibilityOff,
+                                    contentDescription = "hide_password"
+                                )
+                            }
+                        }
+                    },
                     leadingIcon = { Icon(imageVector = Icons.Filled.Lock, contentDescription ="", tint = Color(0xFFBB00FF) )},
                     label = {
                         Text(text = "Password")
@@ -418,7 +524,10 @@ fun SignUpLayout() {
                     modifier = Modifier
                         .padding(start = 20.dp)
                 ){
-                    Checkbox(checked = false, onCheckedChange ={},
+                    Checkbox(checked = checkState.value,
+                        onCheckedChange ={
+                                         checkState.value = it
+                        },
                         colors = CheckboxDefaults.
                         colors(
                             uncheckedColor = Color(0xFFBB00FF)
@@ -497,6 +606,11 @@ data class TripModel (val name: String,val img: Int, val year: String, val descr
 @Composable
 fun HomeLayout(){
     var cardColor by remember { mutableStateOf(Color(0x88CF06F0)) }
+
+    var seachState = remember {
+        mutableStateOf("")
+    }
+
     Surface(modifier = Modifier.fillMaxSize()) {
         Column (
             modifier = Modifier
@@ -603,7 +717,7 @@ fun HomeLayout(){
                                 .width(125.dp)
                                 .height(80.dp)
                                 .clickable {
-                                    cardColor = if (cardColor == Color(0x88CF06F0)){
+                                    cardColor = if (cardColor == Color(0x88CF06F0)) {
                                         Color(0xFFCF06F0)
                                     } else {
                                         Color(0x88CF06F0)
@@ -639,8 +753,10 @@ fun HomeLayout(){
                 horizontalArrangement = Arrangement.Center
             ){
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
+                    value = seachState.value,
+                    onValueChange = {
+                                    seachState.value = it
+                    },
                     label = {
                         Text(
                             text = "Search your destiny",
