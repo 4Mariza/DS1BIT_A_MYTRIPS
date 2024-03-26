@@ -7,6 +7,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -46,9 +47,11 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -493,6 +496,7 @@ data class TripModel (val name: String,val img: Int, val year: String, val descr
 
 @Composable
 fun HomeLayout(){
+    var cardColor by remember { mutableStateOf(Color(0x88CF06F0)) }
     Surface(modifier = Modifier.fillMaxSize()) {
         Column (
             modifier = Modifier
@@ -597,9 +601,16 @@ fun HomeLayout(){
                         Card (
                             modifier = Modifier
                                 .width(125.dp)
-                                .height(80.dp),
+                                .height(80.dp)
+                                .clickable {
+                                    cardColor = if (cardColor == Color(0x88CF06F0)){
+                                        Color(0xFFCF06F0)
+                                    } else {
+                                        Color(0x88CF06F0)
+                                    }
+                                },
                             colors = CardDefaults.cardColors(
-                                containerColor = Color(0xFFCF06F0)
+                                containerColor = cardColor,
                             ),
                             shape = RoundedCornerShape(10.dp)
                         ){
