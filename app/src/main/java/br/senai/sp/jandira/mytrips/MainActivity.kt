@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -481,245 +482,254 @@ fun SignUpLayout() {
     }
 }
 
-data class TripModel (val name: String,val img: Int, val year: Int, val description: String, val date: String)
+data class TripModel (val name: String,val img: Int, val year: String, val description: String, val date: String)
+    val tripsList = listOf(
+        TripModel("Londres", R.drawable.london,"2019" , "London is the capital and largest city of  the United Kingdom, with a population of just under 9 million.", "18 Feb - 21 Feb"),
+        TripModel("Porto", R.drawable.porto, "2022", "Porto is the second city in Portugal, the capital of the Oporto District, and one of the Iberian Peninsula`s major urban areas.", "18 Mar - 21 Apr")
+    )
 
 
-@Composable
-fun ListColumn(model: TripModel){
-    Card(
-        modifier = Modifier
-            .width(360.dp)
-            .height(280.dp)
-            .padding(vertical = 8.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        ),
-        elevation = CardDefaults.cardElevation(14.dp)
-    ) {
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 8.dp),
-            verticalArrangement = Arrangement.SpaceEvenly
-        )
-        {
-            Row (
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(130.dp)
-            ){
-                Card {
-                    Image(
-                        painter = painterResource(id = model.img),
-                        contentDescription ="",
-                        contentScale = ContentScale.Crop
-                    )
-                }
-            }
-            Row (modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    text = model.name+",",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color(0xFFCF06F0)
-                )
-                Text(text = "ano")
-            }
-            Text(
-                text = model.description,
-                lineHeight = 16.sp,
-                fontSize = 13.sp
-            )
-            Row (
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
-            ){
-                Text(
-                    text = model.date,
-                    color = Color(0xFFCF06F0),
-                    fontSize = 13.sp
-                )
-            }
-        }
 
-    }
-    val tripsList = mutableListOf<TripModel>()
-    tripsList.add(TripModel("Londres", R.drawable.london, 2019, "London is the capital and largest city of  the United Kingdom, with a population of just under 9 million.", "18 Feb - 21 Feb"))
-    tripsList.add(TripModel("Porto", R.drawable.porto, 2022, "Porto is the second city in Portugal, the capital of the Oporto District, and one of the Iberian Peninsula's major urban areas.", "18 Mar - 21 Apr"))
-}
 
 @Composable
 fun HomeLayout(){
-    Column (
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFFF6F6F6))
-    ){
-        Row(
+    Surface(modifier = Modifier.fillMaxSize()) {
+        Column (
             modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-                .paint(
-                    painterResource(id = R.drawable.homebg),
-                    contentScale = ContentScale.FillWidth
-                )
-        ) {
-            Column(
+                .fillMaxSize()
+                .background(Color(0xFFF6F6F6))
+        ){
+            Row(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(15.dp)
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .paint(
+                        painterResource(id = R.drawable.homebg),
+                        contentScale = ContentScale.FillWidth
+                    )
             ) {
-                Row (
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(15.dp)
+                ) {
+                    Row (
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(100.dp),
+                        horizontalArrangement = Arrangement.End
+                    ){
+                        Column (
+                            horizontalAlignment = Alignment.End
+                        ){
+                            Card(
+                                modifier = Modifier
+                                    .size(height = 80.dp, width = 80.dp),
+                                colors = CardDefaults.cardColors(containerColor = Color(0xFF2A6391)
+                                ),
+                                elevation = CardDefaults.cardElevation(5.dp),
+                                shape = CircleShape,
+                                border = BorderStroke(width = 2.dp, color = Color.White)
+                            ){
+                                Image(painter = painterResource(id = R.drawable.susannahoffs) , contentDescription ="Foto de Perfil" )
+                            }
+                            Row {
+                                Text(
+                                    text = "Susanna Hoffs",
+                                    color = Color.White
+                                )
+                            }
+                        }
+                    }
+                    Column (
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        verticalArrangement = Arrangement.Center
+                    ){
+                        Column {
+                            Row {
+                                Image(
+                                    imageVector = Icons.Filled.LocationOn,
+                                    contentDescription ="Icon de localização",
+                                    colorFilter = ColorFilter.tint(
+                                        Color.White)
+                                )
+                                Text(
+                                    text = "You're in Paris",
+                                    color = Color.White,
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.W400
+                                )
+                            }
+                            Row {
+                                Text(
+                                    text = "My Trips",
+                                    color = Color.White,
+                                    fontWeight = FontWeight.W800,
+                                    fontSize = 28.sp
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+            Column (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(150.dp)
+                    .padding(horizontal = 15.dp),
+                verticalArrangement = Arrangement.SpaceEvenly
+            ){
+                Spacer(modifier = Modifier.height(14.dp))
+                Row {
+                    Text(
+                        text = "Categories",
+                        color = Color(0xFF565454)
+                    )
+                }
+                LazyRow(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(100.dp),
-                    horizontalArrangement = Arrangement.End
+                    horizontalArrangement = Arrangement.SpaceAround
                 ){
-                    Column (
-                        horizontalAlignment = Alignment.End
-                    ){
-                        Card(
+                    items(5) { index ->
+                        Card (
                             modifier = Modifier
-                                .size(height = 80.dp, width = 80.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color(0xFF2A6391)
+                                .width(125.dp)
+                                .height(80.dp),
+                            colors = CardDefaults.cardColors(
+                                containerColor = Color(0xFFCF06F0)
                             ),
-                            elevation = CardDefaults.cardElevation(5.dp),
-                            shape = CircleShape,
-                            border = BorderStroke(width = 2.dp, color = Color.White)
+                            shape = RoundedCornerShape(10.dp)
                         ){
-                            Image(painter = painterResource(id = R.drawable.susannahoffs) , contentDescription ="Foto de Perfil" )
+                            Column (
+                                modifier = Modifier
+                                    .fillMaxSize(),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ){
+                                Image(
+                                    painter = painterResource(id = R.drawable.moutain_icon),
+                                    contentDescription = "",
+                                    modifier = Modifier.height(40.dp)
+                                )
+                                Text(text = "Mountain", color = Color.White)
+                            }
                         }
-                        Row {
-                            Text(
-                                text = "Susanna Hoffs",
-                                color = Color.White
-                            )
-                        }
-                    }
-                }
-                Column (
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    verticalArrangement = Arrangement.Center
-                ){
-                    Column {
-                        Row {
-                            Image(
-                                imageVector = Icons.Filled.LocationOn,
-                                contentDescription ="Icon de localização",
-                                colorFilter = ColorFilter.tint(
-                                    Color.White)
-                            )
-                            Text(
-                                text = "You're in Paris",
-                                color = Color.White,
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.W400
-                            )
-                        }
-                        Row {
-                            Text(
-                                text = "My Trips",
-                                color = Color.White,
-                                fontWeight = FontWeight.W800,
-                                fontSize = 28.sp
-                            )
-                        }
+                        Spacer(modifier = Modifier.width(10.dp))
                     }
                 }
             }
-        }
-        Column (
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(150.dp)
-                .padding(horizontal = 15.dp),
-            verticalArrangement = Arrangement.SpaceEvenly
-        ){
-            Spacer(modifier = Modifier.height(14.dp))
-            Row {
-                Text(
-                    text = "Categories",
-                    color = Color(0xFF565454)
-                )
-            }
-            LazyRow(
+            Row (
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(100.dp),
-                horizontalArrangement = Arrangement.SpaceAround
+                    .height(60.dp),
+                horizontalArrangement = Arrangement.Center
             ){
-                items(5) { index ->
-                    Card (
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = {},
+                    label = {
+                        Text(
+                            text = "Search your destiny",
+                            color = Color(0xFFA09C9C)
+                        )
+                    },
+                    trailingIcon = { Icon(imageVector = Icons.Outlined.Search, contentDescription = "", tint = Color.Gray)},
+                    modifier = Modifier
+                        .width(360.dp)
+                        .align(Alignment.CenterVertically),
+                    shape = RoundedCornerShape(20.dp),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        unfocusedContainerColor = Color.White,
+                        unfocusedBorderColor = Color.Transparent
+                    )
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 16.dp, top = 16.dp)
+            ) {
+                Row {
+                    Text(
+                        text = "Past Trips",
+                        color = Color(0xFF565454)
+                    )
+                }
+                LazyColumn(){ items(tripsList) {model ->
+                    Card(
                         modifier = Modifier
-                            .width(125.dp)
-                            .height(80.dp),
+                            .width(360.dp)
+                            .height(280.dp)
+                            .padding(vertical = 8.dp),
                         colors = CardDefaults.cardColors(
-                            containerColor = Color(0xFFCF06F0)
+                            containerColor = Color.White
                         ),
-                        shape = RoundedCornerShape(10.dp)
-                    ){
-                        Column (
-                            modifier = Modifier
-                                .fillMaxSize(),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center
-                        ){
-                            Image(
-                                painter = painterResource(id = R.drawable.moutain_icon),
-                                contentDescription = "",
-                                modifier = Modifier.height(40.dp)
+                        elevation = CardDefaults.cardElevation(14.dp)
+                    ) {
+                        Column(modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 8.dp),
+                            verticalArrangement = Arrangement.SpaceEvenly
+                        )
+                        {
+                            Row (
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(130.dp)
+                            ){
+                                Card {
+                                    Image(
+                                        painter = painterResource(id = model.img),
+                                        contentDescription ="",
+                                        contentScale = ContentScale.Crop
+                                    )
+                                }
+                            }
+                            Row (modifier = Modifier.fillMaxWidth()) {
+                                Text(
+                                    text = model.name+", ",
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Medium,
+                                    color = Color(0xFFCF06F0)
+                                )
+                                Text(text = model.year,
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Normal,
+                                    color = Color(0xFFCF06F0)
+                                )
+                            }
+                            Text(
+                                text = model.description,
+                                lineHeight = 16.sp,
+                                fontSize = 13.sp
                             )
-                            Text(text = "Mountain", color = Color.White)
+                            Row (
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                horizontalArrangement = Arrangement.End
+                            ){
+                                Text(
+                                    text = model.date,
+                                    color = Color(0xFFCF06F0),
+                                    fontSize = 13.sp
+                                )
+                            }
                         }
+
                     }
-                    Spacer(modifier = Modifier.width(10.dp))
+                }
+
                 }
             }
         }
-        Row (
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(60.dp),
-            horizontalArrangement = Arrangement.Center
-        ){
-            OutlinedTextField(
-                value = "",
-                onValueChange = {},
-                label = {
-                    Text(
-                        text = "Search your destiny",
-                        color = Color(0xFFA09C9C)
-                    )
-                },
-                trailingIcon = { Icon(imageVector = Icons.Outlined.Search, contentDescription = "", tint = Color.Gray)},
-                modifier = Modifier
-                    .width(360.dp)
-                    .align(Alignment.CenterVertically),
-                shape = RoundedCornerShape(20.dp),
-                colors = OutlinedTextFieldDefaults.colors(
-                    unfocusedContainerColor = Color.White,
-                    unfocusedBorderColor = Color.Transparent
-                )
-            )
-        }
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(start = 16.dp, top = 16.dp)
-        ) {
-            Row {
-                Text(
-                    text = "Past Trips",
-                    color = Color(0xFF565454)
-                )
-            }
-            LazyColumn(){
 
-            }
-        }
     }
 }
+
+
 
 //Card(
 //modifier = Modifier
@@ -802,3 +812,5 @@ fun HomePreview() {
         HomeLayout()
     }
 }
+
+
