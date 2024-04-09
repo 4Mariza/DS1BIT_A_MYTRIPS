@@ -59,6 +59,13 @@ val tripsList = listOf(
     TripModel("Porto", R.drawable.porto, "2022", "Porto is the second city in Portugal, the capital of the Oporto District, and one of the Iberian Peninsula`s major urban areas.", "18 Mar - 21 Apr")
 )
 
+data class Categories (val name:String, val img: Int)
+val categoriesList = listOf(
+    Categories("Mountain", R.drawable.moutain_icon),
+    Categories("Snow", R.drawable.snow),
+    Categories("Beach", R.drawable.beach)
+)
+
 @Composable
 fun Home(controleDeNavegacao: NavHostController) {
     var cardColor by remember { mutableStateOf(Color(0x88CF06F0)) }
@@ -69,11 +76,11 @@ fun Home(controleDeNavegacao: NavHostController) {
 
     MyTripsTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            Column (
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Color(0xFFF6F6F6))
-            ){
+            ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -88,15 +95,15 @@ fun Home(controleDeNavegacao: NavHostController) {
                             .fillMaxSize()
                             .padding(15.dp)
                     ) {
-                        Row (
+                        Row(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(100.dp),
                             horizontalArrangement = Arrangement.SpaceBetween
-                        ){
+                        ) {
                             Button(
                                 onClick = {
-                                   controleDeNavegacao.navigate("login")
+                                    controleDeNavegacao.navigate("login")
                                 },
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = Color.Transparent
@@ -105,23 +112,27 @@ fun Home(controleDeNavegacao: NavHostController) {
                             ) {
                                 Image(
                                     imageVector = Icons.Filled.ArrowBackIosNew,
-                                    contentDescription ="Seta para voltar",
+                                    contentDescription = "Seta para voltar",
                                     colorFilter = ColorFilter.tint(Color.White)
                                 )
                             }
-                            Column (
+                            Column(
                                 horizontalAlignment = Alignment.End
-                            ){
+                            ) {
                                 Card(
                                     modifier = Modifier
                                         .size(height = 80.dp, width = 80.dp),
-                                    colors = CardDefaults.cardColors(containerColor = Color(0xFF2A6391)
+                                    colors = CardDefaults.cardColors(
+                                        containerColor = Color(0xFF2A6391)
                                     ),
                                     elevation = CardDefaults.cardElevation(5.dp),
                                     shape = CircleShape,
                                     border = BorderStroke(width = 2.dp, color = Color.White)
-                                ){
-                                    Image(painter = painterResource(id = R.drawable.susannahoffs) , contentDescription ="Foto de Perfil" )
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.susannahoffs),
+                                        contentDescription = "Foto de Perfil"
+                                    )
                                 }
                                 Row {
                                     Text(
@@ -131,18 +142,19 @@ fun Home(controleDeNavegacao: NavHostController) {
                                 }
                             }
                         }
-                        Column (
+                        Column(
                             modifier = Modifier
                                 .fillMaxSize(),
                             verticalArrangement = Arrangement.Center
-                        ){
+                        ) {
                             Column {
                                 Row {
                                     Image(
                                         imageVector = Icons.Filled.LocationOn,
-                                        contentDescription ="Icon de localização",
+                                        contentDescription = "Icon de localização",
                                         colorFilter = ColorFilter.tint(
-                                            Color.White)
+                                            Color.White
+                                        )
                                     )
                                     Text(
                                         text = "You're in Paris",
@@ -163,13 +175,13 @@ fun Home(controleDeNavegacao: NavHostController) {
                         }
                     }
                 }
-                Column (
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(150.dp)
                         .padding(horizontal = 15.dp),
                     verticalArrangement = Arrangement.SpaceEvenly
-                ){
+                ) {
                     Spacer(modifier = Modifier.height(14.dp))
                     Row {
                         Text(
@@ -182,9 +194,9 @@ fun Home(controleDeNavegacao: NavHostController) {
                             .fillMaxWidth()
                             .height(100.dp),
                         horizontalArrangement = Arrangement.SpaceAround
-                    ){
-                        items(5) { index ->
-                            Card (
+                    ) {
+                        items(categoriesList) { model ->
+                            Card(
                                 modifier = Modifier
                                     .width(125.dp)
                                     .height(80.dp)
@@ -199,31 +211,31 @@ fun Home(controleDeNavegacao: NavHostController) {
                                     containerColor = cardColor,
                                 ),
                                 shape = RoundedCornerShape(10.dp)
-                            ){
-                                Column (
+                            ) {
+                                Column(
                                     modifier = Modifier
                                         .fillMaxSize(),
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                     verticalArrangement = Arrangement.Center
-                                ){
+                                ) {
                                     Image(
-                                        painter = painterResource(id = R.drawable.moutain_icon),
+                                        painter = painterResource(id = model.img),
                                         contentDescription = "",
                                         modifier = Modifier.height(40.dp)
                                     )
-                                    Text(text = "Mountain", color = Color.White)
+                                    Text(text = model.name, color = Color.White)
                                 }
                             }
                             Spacer(modifier = Modifier.width(10.dp))
                         }
                     }
                 }
-                Row (
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(60.dp),
                     horizontalArrangement = Arrangement.Center
-                ){
+                ) {
                     OutlinedTextField(
                         value = seachState.value,
                         onValueChange = {
@@ -235,7 +247,13 @@ fun Home(controleDeNavegacao: NavHostController) {
                                 color = Color(0xFFA09C9C)
                             )
                         },
-                        trailingIcon = { Icon(imageVector = Icons.Outlined.Search, contentDescription = "", tint = Color.Gray) },
+                        trailingIcon = {
+                            Icon(
+                                imageVector = Icons.Outlined.Search,
+                                contentDescription = "",
+                                tint = Color.Gray
+                            )
+                        },
                         modifier = Modifier
                             .width(360.dp)
                             .align(Alignment.CenterVertically),
@@ -257,69 +275,72 @@ fun Home(controleDeNavegacao: NavHostController) {
                             color = Color(0xFF565454)
                         )
                     }
-                    LazyColumn(){ items(tripsList) {model ->
-                        Card(
-                            modifier = Modifier
-                                .width(360.dp)
-                                .height(280.dp)
-                                .padding(vertical = 8.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = Color.White
-                            ),
-                            elevation = CardDefaults.cardElevation(14.dp)
-                        ) {
-                            Column(modifier = Modifier
-                                .fillMaxSize()
-                                .padding(horizontal = 8.dp),
-                                verticalArrangement = Arrangement.SpaceEvenly
-                            )
-                            {
-                                Row (
+                    LazyColumn() {
+                        items(tripsList) { model ->
+                            Card(
+                                modifier = Modifier
+                                    .width(360.dp)
+                                    .height(280.dp)
+                                    .padding(vertical = 8.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = Color.White
+                                ),
+                                elevation = CardDefaults.cardElevation(14.dp)
+                            ) {
+                                Column(
                                     modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(130.dp)
-                                ){
-                                    Card {
-                                        Image(
-                                            painter = painterResource(id = model.img),
-                                            contentDescription ="",
-                                            contentScale = ContentScale.Crop
+                                        .fillMaxSize()
+                                        .padding(horizontal = 8.dp),
+                                    verticalArrangement = Arrangement.SpaceEvenly
+                                )
+                                {
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(130.dp)
+                                    ) {
+                                        Card {
+                                            Image(
+                                                painter = painterResource(id = model.img),
+                                                contentDescription = "",
+                                                contentScale = ContentScale.Crop
+                                            )
+                                        }
+                                    }
+                                    Row(modifier = Modifier.fillMaxWidth()) {
+                                        Text(
+                                            text = model.name + ", ",
+                                            fontSize = 20.sp,
+                                            fontWeight = FontWeight.Medium,
+                                            color = Color(0xFFCF06F0)
+                                        )
+                                        Text(
+                                            text = model.year,
+                                            fontSize = 20.sp,
+                                            fontWeight = FontWeight.Normal,
+                                            color = Color(0xFFCF06F0)
+                                        )
+                                    }
+                                    Text(
+                                        text = model.description,
+                                        lineHeight = 16.sp,
+                                        fontSize = 13.sp
+                                    )
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.End
+                                    ) {
+                                        Text(
+                                            text = model.date,
+                                            color = Color(0xFFCF06F0),
+                                            fontSize = 13.sp
                                         )
                                     }
                                 }
-                                Row (modifier = Modifier.fillMaxWidth()) {
-                                    Text(
-                                        text = model.name+", ",
-                                        fontSize = 20.sp,
-                                        fontWeight = FontWeight.Medium,
-                                        color = Color(0xFFCF06F0)
-                                    )
-                                    Text(text = model.year,
-                                        fontSize = 20.sp,
-                                        fontWeight = FontWeight.Normal,
-                                        color = Color(0xFFCF06F0)
-                                    )
-                                }
-                                Text(
-                                    text = model.description,
-                                    lineHeight = 16.sp,
-                                    fontSize = 13.sp
-                                )
-                                Row (
-                                    modifier = Modifier
-                                        .fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.End
-                                ){
-                                    Text(
-                                        text = model.date,
-                                        color = Color(0xFFCF06F0),
-                                        fontSize = 13.sp
-                                    )
-                                }
-                            }
 
+                            }
                         }
-                    }
 
                     }
                 }
