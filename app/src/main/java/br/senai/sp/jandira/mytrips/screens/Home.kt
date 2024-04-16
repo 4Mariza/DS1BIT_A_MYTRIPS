@@ -51,23 +51,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import br.senai.sp.jandira.mytrips.R
+import br.senai.sp.jandira.mytrips.repository.CategoriaRepository
+import br.senai.sp.jandira.mytrips.repository.ViagemRepository
+import br.senai.sp.jandira.mytrips.simplificarData
 import br.senai.sp.jandira.mytrips.ui.theme.MyTripsTheme
-
-data class TripModel (val name: String,val img: Int, val year: String, val description: String, val date: String)
-val tripsList = listOf(
-    TripModel("Londres", R.drawable.london,"2019" , "London is the capital and largest city of  the United Kingdom, with a population of just under 9 million.", "18 Feb - 21 Feb"),
-    TripModel("Porto", R.drawable.porto, "2022", "Porto is the second city in Portugal, the capital of the Oporto District, and one of the Iberian Peninsula`s major urban areas.", "18 Mar - 21 Apr")
-)
-
-data class Categories (val name:String, val img: Int)
-val categoriesList = listOf(
-    Categories("Mountain", R.drawable.moutain_icon),
-    Categories("Snow", R.drawable.snow),
-    Categories("Beach", R.drawable.beach)
-)
 
 @Composable
 fun Home(controleDeNavegacao: NavHostController) {
+    val viagens = ViagemRepository().listarTodasAsViagens()
+
+    val categorias = CategoriaRepository().listarTodasAsCategorias()
+
     var cardColor by remember { mutableStateOf(Color(0x88CF06F0)) }
 
     var seachState = remember {
@@ -195,7 +189,7 @@ fun Home(controleDeNavegacao: NavHostController) {
                             .height(100.dp),
                         horizontalArrangement = Arrangement.SpaceAround
                     ) {
-                        items(categoriesList) { model ->
+                        items(categorias) {
                             Card(
                                 modifier = Modifier
                                     .width(125.dp)
@@ -219,11 +213,11 @@ fun Home(controleDeNavegacao: NavHostController) {
                                     verticalArrangement = Arrangement.Center
                                 ) {
                                     Image(
-                                        painter = painterResource(id = model.img),
+                                        painter = if(it.icone == null) painterResource(id = R.drawable.no_icon) else it.icone!!,
                                         contentDescription = "",
                                         modifier = Modifier.height(40.dp)
                                     )
-                                    Text(text = model.name, color = Color.White)
+                                    Text(text = it.categoria, color = Color.White)
                                 }
                             }
                             Spacer(modifier = Modifier.width(10.dp))
@@ -276,7 +270,7 @@ fun Home(controleDeNavegacao: NavHostController) {
                         )
                     }
                     LazyColumn() {
-                        items(tripsList) { model ->
+                        items(viagens) {
                             Card(
                                 modifier = Modifier
                                     .width(360.dp)
@@ -301,28 +295,22 @@ fun Home(controleDeNavegacao: NavHostController) {
                                     ) {
                                         Card {
                                             Image(
-                                                painter = painterResource(id = model.img),
-                                                contentDescription = "",
+                                                painter = if(it.imagem == null) painterResource(id = R.drawable.no_image) else it.imagem!!,
+                                                contentDescription = "Imagem Do Destino",
                                                 contentScale = ContentScale.Crop
                                             )
                                         }
                                     }
                                     Row(modifier = Modifier.fillMaxWidth()) {
                                         Text(
-                                            text = model.name + ", ",
+                                            text = "${it.destino}, ${it.dataChegada.year}",
                                             fontSize = 20.sp,
                                             fontWeight = FontWeight.Medium,
                                             color = Color(0xFFCF06F0)
                                         )
-                                        Text(
-                                            text = model.year,
-                                            fontSize = 20.sp,
-                                            fontWeight = FontWeight.Normal,
-                                            color = Color(0xFFCF06F0)
-                                        )
                                     }
                                     Text(
-                                        text = model.description,
+                                        text = it.descricao,
                                         lineHeight = 16.sp,
                                         fontSize = 13.sp
                                     )
@@ -332,7 +320,7 @@ fun Home(controleDeNavegacao: NavHostController) {
                                         horizontalArrangement = Arrangement.End
                                     ) {
                                         Text(
-                                            text = model.date,
+                                            text = "${simplificarData(it.dataChegada)} - ${simplificarData(it.dataPartida)}",
                                             color = Color(0xFFCF06F0),
                                             fontSize = 13.sp
                                         )
