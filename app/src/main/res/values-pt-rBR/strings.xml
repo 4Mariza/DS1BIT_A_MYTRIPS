@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MyTrips</string>
+    <string name="login_phrase">Por favor, logue-se para continuar.</string>
+    <string name="login_password_field">Senha</string>
+    <string name="login_error_message">Usuário ou senha inválidos!</string>
+    <string name="login_button">LOGAR</string>
+    <string name="login_no_account_yet">Não possui uma conta?</string>
+    <string name="login_sign_up_text">Cadastre-se</string>
+
+    <string name="signUp_title">Cadastre-se</string>
+    <string name="signUp_phrase">Crie uma nova conta</string>
+    <string name="signUp_username">Nome de usuário</string>
+    <string name="signUp_phone">Telefone</string>
+    <string name="signUp_password">Senha</string>
+    <string name="signUp_is_over_18">Maior de 18?</string>
+    <string name="signUp_button">CRIAR CONTA</string>
+    <string name="signUp_already_has_account">Já possui uma conta?</string>
+    <string name="signUp_login_text">Logue-se</string>
+    <string name="signUp_error_message">Campos não foram preenchidos corretamente!</string>
+</resources>

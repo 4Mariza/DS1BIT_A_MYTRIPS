@@ -10,8 +10,8 @@ interface UsuarioDao {
         @Insert
         fun salvar(usuario: Usuario): Long
 
-        @Query("SELECT * FROM tbl_usuario ORDER BY nome ASC")
-        fun listarTodosOsUsuarios(): List<Usuario>
+        @Query("SELECT * FROM tbl_usuario WHERE email=:email AND senha=:senha")
+        fun logar(email:String, senha:String):Boolean
 
         @Query("SELECT * FROM tbl_usuario WHERE id = :id")
         fun buscarUsuarioPeloId(id: Long): Usuario

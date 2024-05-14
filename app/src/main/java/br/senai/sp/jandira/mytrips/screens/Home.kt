@@ -67,7 +67,6 @@ fun Home(controleDeNavegacao: NavHostController) {
     val categorias = CategoriaRepository().listarTodasAsCategorias()
 
     val cr = UsuarioRepository(LocalContext.current)
-    val usuarios = cr.buscarTodosOsUsuarios()
 
     var cardColor by remember { mutableStateOf(Color(0x88CF06F0)) }
 

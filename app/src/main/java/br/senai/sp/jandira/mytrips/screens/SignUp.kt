@@ -49,6 +49,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -134,13 +135,13 @@ fun SignUp(controleDeNavegacao: NavHostController) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ){
                     Text(
-                        text = "Sign Up",
+                        text = stringResource(id = R.string.signUp_title),
                         fontSize = 38.sp,
                         fontWeight = FontWeight.ExtraBold,
                         color = Color(0xFFBB00FF)
                     )
                     Text(
-                        text = "Create a new account",
+                        text = stringResource(id = R.string.signUp_phrase),
                         color = Color(0xFFA09C9C),
                         fontSize = 18.sp
                     )
@@ -204,7 +205,7 @@ fun SignUp(controleDeNavegacao: NavHostController) {
                             },
                             leadingIcon = { Icon(imageVector = Icons.Filled.Person, contentDescription ="", tint = Color(0xFFBB00FF) ) },
                             label = {
-                                Text(text = "Username")
+                                Text(text = stringResource(id = R.string.signUp_username))
                             },
                             colors = OutlinedTextFieldDefaults
                                 .colors(
@@ -223,7 +224,7 @@ fun SignUp(controleDeNavegacao: NavHostController) {
                             },
                             leadingIcon = { Image(painter = painterResource(id = R.drawable.phone), contentDescription = "") },
                             label = {
-                                Text(text = "Phone")
+                                Text(text = stringResource(id = R.string.signUp_phone))
                             },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                             colors = OutlinedTextFieldDefaults
@@ -287,7 +288,7 @@ fun SignUp(controleDeNavegacao: NavHostController) {
                             },
                             leadingIcon = { Icon(imageVector = Icons.Filled.Lock, contentDescription ="", tint = Color(0xFFBB00FF) ) },
                             label = {
-                                Text(text = "Password")
+                                Text(text = stringResource(id = R.string.signUp_password))
                             },
                             colors = OutlinedTextFieldDefaults
                                 .colors(
@@ -318,7 +319,7 @@ fun SignUp(controleDeNavegacao: NavHostController) {
                                 colors(
                                     uncheckedColor = Color(0xFFBB00FF)
                                 ))
-                            Text(text = "Over 18?")
+                            Text(text = stringResource(id = R.string.signUp_is_over_18))
                         }
                         Row (
                             modifier = Modifier
@@ -354,7 +355,7 @@ fun SignUp(controleDeNavegacao: NavHostController) {
                                 shape = RoundedCornerShape(20.dp)
                             ) {
                                 Text(
-                                    text = "CREATE ACCOUNT",
+                                    text = stringResource(id = R.string.signUp_button),
                                     fontWeight = FontWeight.ExtraBold,
                                     fontSize = 20.sp
                                 )
@@ -367,11 +368,11 @@ fun SignUp(controleDeNavegacao: NavHostController) {
                                 .padding(end = 26.dp)
                         ){
                             Text(
-                                text = "Already have an account?",
+                                text = stringResource(id = R.string.signUp_already_has_account),
                                 color = Color(0XFFA09C9C)
                             )
                             Text(
-                                text = "Sign in",
+                                text = stringResource(id = R.string.signUp_login_text),
                                 fontSize = 16.sp,
                                 color = Color(0xFFBB00FF),
                                 fontWeight = FontWeight.Bold,

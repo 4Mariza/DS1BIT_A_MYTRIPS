@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import br.senai.sp.jandira.mytrips.model.Usuario
 
-@Database(entities = [Usuario::class], version = 1)
+@Database(entities = [Usuario::class], version = 2)
 abstract class UsuarioDb : RoomDatabase(){
 
     abstract fun UsuarioDao():UsuarioDao

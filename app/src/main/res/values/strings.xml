@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">MyTrips</string>
+    <string name="login_phrase">Please sign in to continue.</string>
+    <string name="login_password_field">Password</string>
+    <string name="login_error_message">Invalid user or password!</string>
+    <string name="login_button">SIGN IN</string>
+    <string name="login_no_account_yet">Don\'t have an account?</string>
+    <string name="login_sign_up_text">Sign up</string>
+
+    <string name="signUp_title">Sign Up</string>
+    <string name="signUp_phrase">Create a new account</string>
+    <string name="signUp_username">Username</string>
+    <string name="signUp_phone">Phone</string>
+    <string name="signUp_password">Password</string>
+    <string name="signUp_is_over_18">Over 18?</string>
+    <string name="signUp_button">CREATE ACCOUNT</string>
+    <string name="signUp_already_has_account">Already have an account?</string>
+    <string name="signUp_login_text">Sign in</string>
+    <string name="signUp_error_message">Fields were not filled in correctly!</string>
 </resources>

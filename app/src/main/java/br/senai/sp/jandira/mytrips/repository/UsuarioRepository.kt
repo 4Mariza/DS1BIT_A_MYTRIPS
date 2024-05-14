@@ -11,8 +11,8 @@ class UsuarioRepository(context: Context) {
         return db.salvar(usuario)
     }
 
-    fun buscarTodosOsUsuarios(): List<Usuario>{
-        return db.listarTodosOsUsuarios()
+    fun validarLogin(email:String, senha:String): Boolean{
+        return db.logar(email, senha)
     }
 
     fun buscarUsuarioPeloId(id: Long): Usuario {
