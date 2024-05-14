@@ -47,6 +47,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -57,10 +58,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import br.senai.sp.jandira.mytrips.R
+import br.senai.sp.jandira.mytrips.model.Usuario
+import br.senai.sp.jandira.mytrips.repository.UsuarioRepository
 import br.senai.sp.jandira.mytrips.ui.theme.MyTripsTheme
 
 @Composable
 fun SignUp(controleDeNavegacao: NavHostController) {
+
+    val cr = UsuarioRepository(LocalContext.current)
+
     var nomeState = remember {
         mutableStateOf("")
     }
@@ -325,6 +331,17 @@ fun SignUp(controleDeNavegacao: NavHostController) {
                                         isErrorState.value = true
                                         mensagemErroState.value = "Campos não foram preenchidos corretamente!"
                                     } else {
+                                        //Criar um objetom Usuario
+
+                                        val usuario = Usuario (
+                                                nome = nomeState.value,
+                                                email = emailState.value,
+                                                telefone = phoneState.value,
+                                                isMaior = checkState.value,
+                                                senha =  passwordState.value
+                                                )
+
+                                        cr.salvar(usuario = usuario)
                                         controleDeNavegacao.navigate("home")
                                     }
                                 },

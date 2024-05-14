@@ -21,6 +21,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.outlined.Search
@@ -28,6 +29,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -44,6 +46,7 @@ import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,6 +55,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import br.senai.sp.jandira.mytrips.R
 import br.senai.sp.jandira.mytrips.repository.CategoriaRepository
+import br.senai.sp.jandira.mytrips.repository.UsuarioRepository
 import br.senai.sp.jandira.mytrips.repository.ViagemRepository
 import br.senai.sp.jandira.mytrips.simplificarData
 import br.senai.sp.jandira.mytrips.ui.theme.MyTripsTheme
@@ -62,9 +66,12 @@ fun Home(controleDeNavegacao: NavHostController) {
 
     val categorias = CategoriaRepository().listarTodasAsCategorias()
 
+    val cr = UsuarioRepository(LocalContext.current)
+    val usuarios = cr.buscarTodosOsUsuarios()
+
     var cardColor by remember { mutableStateOf(Color(0x88CF06F0)) }
 
-    var seachState = remember {
+    var searchState = remember {
         mutableStateOf("")
     }
 
@@ -231,9 +238,9 @@ fun Home(controleDeNavegacao: NavHostController) {
                     horizontalArrangement = Arrangement.Center
                 ) {
                     OutlinedTextField(
-                        value = seachState.value,
+                        value = searchState.value,
                         onValueChange = {
-                            seachState.value = it
+                            searchState.value = it
                         },
                         label = {
                             Text(

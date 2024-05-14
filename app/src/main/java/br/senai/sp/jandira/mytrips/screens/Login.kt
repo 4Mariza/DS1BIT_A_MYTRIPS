@@ -39,6 +39,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -47,10 +48,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import br.senai.sp.jandira.mytrips.repository.UsuarioRepository
 import br.senai.sp.jandira.mytrips.ui.theme.MyTripsTheme
 
 @Composable
 fun Login(controleDeNavegacao: NavHostController) {
+
+    val cr = UsuarioRepository(LocalContext.current)
+    val usuarios = cr.buscarTodosOsUsuarios()
+
     var nomeState = remember {
         mutableStateOf("")
     }
@@ -212,11 +218,13 @@ fun Login(controleDeNavegacao: NavHostController) {
                     ){
                         Button(
                             onClick = {
-                                if(nomeState.value == "aluno@aluno.com" && passwordState.value == "1234"){
-                                    controleDeNavegacao.navigate("home")
-                                } else {
-                                    isErrorState.value = true
-                                    mensagemErroState.value = "Usuário ou senha inválidos!"
+                                for (user in usuarios){
+                                    if(nomeState.value == user.email && passwordState.value == user.senha){
+                                        controleDeNavegacao.navigate("home")
+                                    } else {
+                                        isErrorState.value = true
+                                        mensagemErroState.value = "Usuário ou senha inválidos!"
+                                    }
                                 }
                             },
                             colors = ButtonDefaults.buttonColors(

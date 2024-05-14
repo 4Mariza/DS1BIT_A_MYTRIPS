@@ -6,6 +6,7 @@ import br.senai.sp.jandira.mytrips.R
 import br.senai.sp.jandira.mytrips.model.Categoria
 
 class CategoriaRepository {
+
     @Composable
     fun listarTodasAsCategorias(): List<Categoria>{
 
